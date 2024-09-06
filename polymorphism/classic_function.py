@@ -5,15 +5,12 @@ def calculate_area(shape_type: str, dimensions: tuple) -> float:
     if shape_type == 'circle':
         radius = dimensions[0]
         return 3.14 * radius ** 2
-
     elif shape_type == 'rectangle':
         length, width = dimensions
         return length * width
-
     elif shape_type == 'triangle':
         base, height = dimensions
         return (base * height) / 2
-
     else:
         raise ValueError("Shape not supported")
 
