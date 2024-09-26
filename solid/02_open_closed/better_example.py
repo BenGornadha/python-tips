@@ -17,6 +17,10 @@ class PushNotification(Notification):
     def send(self, message: str) -> None:
         print(f"Sending push notification with message: {message}")
 
+class PidgeonNotificiation(Notification):
+    def send(self, message:str):
+        print(f"Sending Pidgeon with message: {message}")
+
 class NotificationSender:
     def __init__(self, notification: Notification) -> None:
         self.notification = notification

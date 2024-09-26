@@ -7,7 +7,7 @@ class DataHandler:
         self._save_to_db(data)
 
     def _parse_json(self, json_data: str) -> dict:
-        ## Tout plein de trucs (s'il manque un champ...)
+        ## Tout plein de trucs (s'il manque un champ, transformer un string en int...)
         return json.loads(json_data)
 
     def _save_to_db(self, data: dict) -> None:
