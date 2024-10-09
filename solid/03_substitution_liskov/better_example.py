@@ -20,11 +20,11 @@ class Pingouin(OiseauNonVolant):
     pass
 
 # Utilisation
-def faire_se_deplacer(animal: Animal) -> None:
+def faire_voler(animal: OiseauVolant) -> None:
     print(animal.se_deplacer())
 
 aigle = Aigle()
 pingouin = Pingouin()
 
-faire_se_deplacer(aigle)     # "L'oiseau vole dans le ciel"
-faire_se_deplacer(pingouin)  # "L'oiseau marche ou nage"
+faire_voler(aigle)     # "L'oiseau vole dans le ciel"
+faire_voler(pingouin)  # "L'oiseau marche ou nage"
