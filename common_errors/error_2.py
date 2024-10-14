@@ -1,3 +1,6 @@
+
+
+
 def c(p, t):
     s = 0
     for i in p:

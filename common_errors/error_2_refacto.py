@@ -14,6 +14,28 @@ def calculate_commission(sales: List[dict], target_product: str) -> float:
     return total_commission
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def calculate_total_commission(sales: List[dict], target_product: str) -> float:
     total_commission = 0
     for sale in sales:
