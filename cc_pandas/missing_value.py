@@ -31,8 +31,6 @@ class RowDropper:
         minimum_non_missing_values_accepted = self._compute_minimum_non_missing_values_accepted(df=df)
         return df.dropna(thresh=minimum_non_missing_values_accepted)
 
-
-
 class ColumnDropper:
     def __init__(self, minimum_missing_percentage_accepted: Optional[float] = None):
         self.minimum_missing_percentage_accepted = minimum_missing_percentage_accepted
