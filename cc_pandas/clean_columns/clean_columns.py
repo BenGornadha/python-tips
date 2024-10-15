@@ -1,14 +1,7 @@
-from abc import ABC, abstractmethod
-
-import pandas as pd
 import re
+import pandas as pd
 
-
-class ColumnFormatter(ABC):
-
-    @abstractmethod
-    def convert(self, column_name: str) -> str:
-        ...
+from cc_pandas.clean_columns.port import ColumnFormatter
 
 
 class SnakeCaseFormatter(ColumnFormatter):
@@ -35,21 +28,3 @@ class ColumnsCleaner:
         camel_case_formatter = CamelCaseFormatter()
         columns_camel_cased = [camel_case_formatter.convert(column_name=column_name) for column_name in df.columns]
         return df.rename(columns=dict(zip(df.columns, columns_camel_cased)))
-
-
-if __name__ == '__main__':
-    df = pd.DataFrame({
-        "First--Name": ["Alice", "Bob", "Charlie"],
-        "Last Name": ["Smith", "Johnson", "Williams"],
-        "Age in Years": [25, 30, 35],
-        "Email Address": ["alice@example.com", "bob@example.com", "charlie@example.com"],
-        "Phone Number": ["555-1234", "555-5678", "555-9876"]
-    })
-
-    df_camel_case = ColumnsCleaner.all_to_snake_case(df=df)
-    print(df_camel_case)
-
-    print("---" * 100)
-
-    df_snake_case = ColumnsCleaner.all_to_camel_case(df=df)
-    print(df_snake_case)
