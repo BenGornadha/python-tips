@@ -8,10 +8,6 @@ class Strategy(Protocol):
     def apply(self, df: pd.DataFrame, column: str) -> pd.DataFrame:
         ...
 
-class MissingValueFiller:
-    def __init__(self, strategy: Strategy) -> None:
-        self.strategy = strategy
-
 class MeanStrategy:
     def apply(self, df: pd.DataFrame, column: str) -> pd.DataFrame:
         mean_value = df[column].mean()
