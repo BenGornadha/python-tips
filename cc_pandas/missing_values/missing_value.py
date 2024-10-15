@@ -1,5 +1,5 @@
 import pandas as pd
-from typing import Union, Any
+from typing import Union
 
 from cc_pandas.missing_values.strategy import Strategy, MeanStrategy, MedianStrategy
 
@@ -24,19 +24,3 @@ class MissingValueFiller:
         return self.strategy.apply(df=df, column=column)
 
 
-if __name__ == '__main__':
-
-    df = pd.DataFrame({
-        "Name": ["Alice", "Bob", "Charlie", None],
-        "Age": [25, 30, None, 35],
-        "Score": [85, None, 90, None]
-    })
-
-    mean_filler = MissingValueFiller(strategy=MeanStrategy())
-    df_with_mean = mean_filler.apply(df=df, column='Age')
-
-    median_filler = MissingValueFiller(strategy=MedianStrategy())
-    df_with_median = median_filler.apply(df=df, column='Score')
-
-    print(df_with_mean)
-    print(df_with_median)
