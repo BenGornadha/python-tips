@@ -2,6 +2,7 @@ import pandas as pd
 from typing import Union, Optional
 
 
+
 class MissingValueReplacer:
     def __init__(self, column: str, replacement_value: Union[str, int, float]):
         self.column = column
@@ -10,45 +11,6 @@ class MissingValueReplacer:
     def replace(self, df: pd.DataFrame) -> pd.DataFrame:
         df[self.column] = df[self.column].fillna(self.replacement_value)
         return df
-
-
-class RowDropper:
-    def __init__(self, minimum_missing_percentage_accepted: Optional[float] = None):
-        self.minimum_missing_threshold_accepted = minimum_missing_percentage_accepted
-
-    def _require_non_empty_dataframe(self, df: pd.DataFrame) -> None:
-        if df.empty:
-            raise ValueError("The DataFrame is empty. Nothing to drop.")
-
-    def _compute_minimum_non_missing_values_accepted(self, df: pd.DataFrame) -> int:
-        nb_columns = df.shape[1]
-        if self.minimum_missing_threshold_accepted is None:
-            return nb_columns
-        return int((1 - self.minimum_missing_threshold_accepted) * nb_columns)
-
-    def drop_missing_rows(self, df: pd.DataFrame) -> pd.DataFrame:
-        self._require_non_empty_dataframe(df=df)
-        minimum_non_missing_values_accepted = self._compute_minimum_non_missing_values_accepted(df=df)
-        return df.dropna(thresh=minimum_non_missing_values_accepted)
-
-class ColumnDropper:
-    def __init__(self, minimum_missing_percentage_accepted: Optional[float] = None):
-        self.minimum_missing_percentage_accepted = minimum_missing_percentage_accepted
-
-    def _require_non_empty_dataframe(self, df: pd.DataFrame) -> None:
-        if df.empty:
-            raise ValueError("The DataFrame is empty. Nothing to drop.")
-
-    def _compute_minimum_non_missing_values_accepted(self, df: pd.DataFrame) -> int:
-        nb_rows = df.shape[0]
-        if self.minimum_missing_percentage_accepted is None:
-            return nb_rows
-        return int((1 - self.minimum_missing_percentage_accepted) * nb_rows)
-
-    def drop_missing_columns(self, df: pd.DataFrame) -> pd.DataFrame:
-        self._require_non_empty_dataframe(df=df)
-        minimum_non_missing_values_accepted = self._compute_minimum_non_missing_values_accepted(df=df)
-        return df.dropna(axis=1, thresh=minimum_non_missing_values_accepted)
 
 
 class MissingValueHandler:
