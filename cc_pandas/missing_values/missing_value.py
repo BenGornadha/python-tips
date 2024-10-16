@@ -1,17 +1,8 @@
 import pandas as pd
-from typing import Union
 
-from cc_pandas.missing_values.strategy import Strategy, MeanStrategy, MedianStrategy
+from cc_pandas.missing_values.strategy import Strategy
 
 
-class MissingValueReplacer:
-    def __init__(self, column: str, replacement_value: Union[str, int, float]):
-        self.column = column
-        self.replacement_value = replacement_value
-
-    def replace(self, df: pd.DataFrame) -> pd.DataFrame:
-        df[self.column] = df[self.column].fillna(self.replacement_value)
-        return df
 
 
 class MissingValueFiller:
