@@ -11,10 +11,10 @@ if __name__ == '__main__':
         "Phone Number": [None, "555-5678", "555-9876"]
     })
 
-    fifty_percent_missing_row_dropper = RowDropper(maximum_missing_percentage_accepted=0.5)
-    df_missing_row_cleaned = fifty_percent_missing_row_dropper.drop(df=df)
+    half_missing_row_dropper = RowDropper(maximum_missing_percentage_accepted=0.5)
+    df_missing_row_cleaned = half_missing_row_dropper.drop(df=df)
 
-    fifty_percent_missing_column_dropper = ColumnDropper(maximum_missing_percentage_accepted=0.5)
-    df_cleaned = fifty_percent_missing_column_dropper.drop(df=df_missing_row_cleaned)
+    half_missing_column_dropper = ColumnDropper(maximum_missing_percentage_accepted=0.5)
+    df_cleaned = half_missing_column_dropper.drop(df=df_missing_row_cleaned)
 
     print(df_cleaned)
