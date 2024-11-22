@@ -1,9 +1,9 @@
 import pandas as pd
 
-from cc_pandas.clean_columns.clean_columns import ColumnsCleaner
-from cc_pandas.droppers.droppers import RowDropper, ColumnDropper
-from cc_pandas.missing_values.missing_value import MissingValueFiller
-from cc_pandas.missing_values.strategy import MeanStrategy, MedianStrategy
+from cc_pandas.ep1.clean_columns.clean_columns import ColumnsCleaner
+from cc_pandas.ep1.droppers.droppers import RowDropper, ColumnDropper
+from cc_pandas.ep1.missing_values.missing_value import MissingValueFiller
+from cc_pandas.ep1.missing_values.strategy import MeanStrategy, MedianStrategy
 
 if __name__ == '__main__':
     df = pd.DataFrame({

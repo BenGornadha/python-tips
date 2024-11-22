@@ -1,7 +1,7 @@
 import re
 import pandas as pd
 
-from cc_pandas.clean_columns.port import ColumnFormatter
+from cc_pandas.ep1.clean_columns.port import ColumnFormatter
 
 
 class SnakeCaseFormatter(ColumnFormatter):

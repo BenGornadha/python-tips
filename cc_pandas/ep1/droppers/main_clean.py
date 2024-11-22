@@ -1,6 +1,6 @@
 import pandas as pd
 
-from cc_pandas.droppers.droppers import RowDropper, ColumnDropper
+from cc_pandas.ep1.droppers.droppers import RowDropper, ColumnDropper
 
 if __name__ == '__main__':
     df = pd.DataFrame({

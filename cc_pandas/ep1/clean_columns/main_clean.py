@@ -1,6 +1,6 @@
 import pandas as pd
 
-from cc_pandas.clean_columns.clean_columns import ColumnsCleaner
+from cc_pandas.ep1.clean_columns.clean_columns import ColumnsCleaner
 
 if __name__ == '__main__':
     df = pd.DataFrame({

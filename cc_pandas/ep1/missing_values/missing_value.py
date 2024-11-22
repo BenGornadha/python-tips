@@ -1,6 +1,6 @@
 import pandas as pd
 
-from cc_pandas.missing_values.strategy import Strategy
+from cc_pandas.ep1.missing_values.strategy import Strategy
 
 
 

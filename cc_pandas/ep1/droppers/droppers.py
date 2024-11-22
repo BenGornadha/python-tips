@@ -1,7 +1,7 @@
 import pandas as pd
 from typing import Optional
 
-from cc_pandas.droppers.port import Dropper
+from cc_pandas.ep1.droppers.port import Dropper
 
 
 class RowDropper(Dropper):
