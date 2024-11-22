@@ -24,6 +24,7 @@ class OutlierDetector:
             current_series = self._df[column]
             if self._gaussian_checker.is_gaussian(a_series=current_series):
                 self._df = self._df[OutlierZScore(a_series=current_series, threshold=with_threshold).apply()]
+
         return self._df
 
 

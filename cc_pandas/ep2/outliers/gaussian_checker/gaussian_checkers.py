@@ -1,6 +1,8 @@
-from abc import ABC
+
+from abc import ABC, abstractmethod
 import pandas as pd
 from scipy.stats import kstest, shapiro, anderson
+
 
 
 class GaussianChecker(ABC):
@@ -9,6 +11,7 @@ class GaussianChecker(ABC):
         self._clean_temporary_extreme_values(a_series=a_series)
         return self._check_gaussian(a_series=self._series, min_p_value=min_p_value)
 
+    @abstractmethod
     def _check_gaussian(self, a_series: pd.Series, min_p_value: float) -> bool:
         raise NotImplementedError
 
