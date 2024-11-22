@@ -1,0 +1,30 @@
+import numpy as np
+import pandas as pd
+from scipy.stats import shapiro
+
+
+if __name__ == '__main__':
+
+    # Génération du DataFrame
+    np.random.seed(42)
+    data = {
+        "A": np.random.normal(50, 10, 50).tolist() + [500],  # Une valeur aberrante
+        "B": np.random.normal(30, 5, 50).tolist() + [300],   # Une valeur aberrante
+        "C": np.random.choice(["X", "Y", "Z"], 51)           # Colonne non numérique
+    }
+    df = pd.DataFrame(data)
+
+    # Code affreux
+    for col in df.select_dtypes(include='number').columns:
+        col_data = df[col]
+        shapiro_res = shapiro(col_data[(col_data - col_data.mean()).abs() <= 3 * col_data.std()])
+        if shapiro_res.pvalue > 0.05:
+            mean_val = col_data.mean()
+            std_dev_val = col_data.std()
+            df[col] = col_data.where((col_data - mean_val).abs() <= 3 * std_dev_val, mean_val)
+
+    rows_outliers = (~df.select_dtypes(include='number').apply(
+        lambda x: ((x - x.mean()).abs() <= 3 * x.std()), axis=0)).sum(axis=1)
+    df = df[rows_outliers <= 2]
+
+    print(df)

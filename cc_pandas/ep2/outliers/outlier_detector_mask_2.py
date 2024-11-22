@@ -12,8 +12,8 @@ class OutlierDetector3:
 
         self._df = a_dataframe.copy(deep=True)
         self._gaussian_checker = gaussian_checker
-        self._outlier_mask = OutlierMask(dataframe=self._df)
         self._outlier_detector = outlier_detector
+        self._outlier_mask = OutlierMask(dataframe=self._df)
 
     def filter_outliers(self, max_outliers_per_row: int = 1):
         for column in self._df.select_dtypes(include='number').columns:
