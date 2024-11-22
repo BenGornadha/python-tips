@@ -26,3 +26,4 @@ class OutlierDetector:
                 self._df = self._df[OutlierZScore(a_series=current_series, threshold=with_threshold).apply()]
         return self._df
 
+
