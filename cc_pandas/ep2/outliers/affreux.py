@@ -5,16 +5,14 @@ from scipy.stats import shapiro
 
 if __name__ == '__main__':
 
-    # Génération du DataFrame
     np.random.seed(42)
     data = {
-        "A": np.random.normal(50, 10, 50).tolist() + [500],  # Une valeur aberrante
-        "B": np.random.normal(30, 5, 50).tolist() + [300],   # Une valeur aberrante
-        "C": np.random.choice(["X", "Y", "Z"], 51)           # Colonne non numérique
+        "A": np.random.normal(50, 10, 50).tolist() + [500],
+        "B": np.random.normal(30, 5, 50).tolist() + [300],
+        "C": np.random.choice(["X", "Y", "Z"], 51)
     }
     df = pd.DataFrame(data)
 
-    # Code affreux
     for col in df.select_dtypes(include='number').columns:
         col_data = df[col]
         shapiro_res = shapiro(col_data[(col_data - col_data.mean()).abs() <= 3 * col_data.std()])
