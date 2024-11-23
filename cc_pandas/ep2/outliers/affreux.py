@@ -15,8 +15,8 @@ if __name__ == '__main__':
 
     for col in df.select_dtypes(include='number').columns:
         col_data = df[col]
-        shapiro_res = shapiro(col_data[(col_data - col_data.mean()).abs() <= 3 * col_data.std()])
-        if shapiro_res.pvalue > 0.05:
+        stat, pvalue = shapiro(col_data[(col_data - col_data.mean()).abs() <= 3 * col_data.std()])
+        if pvalue > 0.05:
             mean_val = col_data.mean()
             std_dev_val = col_data.std()
             df[col] = col_data.where((col_data - mean_val).abs() <= 3 * std_dev_val, mean_val)
