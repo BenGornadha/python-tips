@@ -5,7 +5,7 @@ from cc_pandas.ep2.outliers.gaussian_checker.gaussian_checkers import GaussianCh
 from cc_pandas.ep2.outliers.mask.mask import OutlierMask
 
 
-class OutlierDetector3:
+class OutlierRemover:
     def __init__(self, a_dataframe: pd.DataFrame,
                  gaussian_checker: GaussianChecker = GaussianCheckerShapiro(),
                  outlier_detector: BaseOutlierDetector = OutlierDetectorZScore()) -> None:

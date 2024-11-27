@@ -9,7 +9,8 @@ class GaussianChecker(ABC):
 
     def is_gaussian(self, a_series: pd.Series, min_p_value=0.05) -> bool:
         self._clean_temporary_extreme_values(a_series=a_series)
-        return self._check_gaussian(a_series=self._series, min_p_value=min_p_value)
+        return self._check_gaussian(a_series=self._series,
+                                    min_p_value=min_p_value)
 
     @abstractmethod
     def _check_gaussian(self, a_series: pd.Series, min_p_value: float) -> bool:

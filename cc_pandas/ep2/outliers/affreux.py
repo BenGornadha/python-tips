@@ -26,3 +26,6 @@ if __name__ == '__main__':
     df = df[rows_outliers <= 2]
 
     print(df)
+
+
+

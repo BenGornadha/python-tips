@@ -14,8 +14,9 @@ class OutlierZScore:
         return (self._a_series - mean).abs() <= self._threshold * std_dev
 
 
-class OutlierDetector:
-    def __init__(self, a_dataframe: pd.DataFrame, gaussian_checker : GaussianChecker = GaussianCheckerShapiro()) -> None:
+class OutlierDetector4:
+    def __init__(self, a_dataframe: pd.DataFrame,
+                 gaussian_checker : GaussianChecker = GaussianCheckerShapiro()) -> None:
         self._df = a_dataframe.copy(deep=True)
         self._gaussian_checker = gaussian_checker
 
