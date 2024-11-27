@@ -23,6 +23,17 @@ class OpenAIClient:
         except Exception as e:
             raise RuntimeError(f"Une erreur s'est produite lors de l'appel à l'API : {e}")
 
+    def with_thread(self, thread_id: str, prompt: str):
+        self.thread = self._client.beta.threads.messages.create(
+            thread_id=thread_id,
+            role="user",
+            content=prompt
+        )
+
+    def run(self, thread_id: str, assistant_id: str):
+        self._client.beta.threads.runs.create(thread_id=thread_id,
+                                              assistant_id=assistant_id)
+
     # def send_prompt_audio(self, customer: Customer, audio_file_path: str, temperature: float = 0.7) -> str:
     #     try:
     #         transcription = self._client.audio.transcriptions.create(
@@ -33,3 +44,7 @@ class OpenAIClient:
     #         return self.send_prompt(customer=customer, prompt=transcribed_text, temperature=temperature)
     #     except Exception as e:
     #         raise RuntimeError(f"Une erreur s'est produite lors de la transcription ou de l'appel à l'API : {e}")
+    def get_answers(self, thread_id: str):
+        messages = self._client.beta.threads.messages.list(thread_id=thread_id)
+        for message in reversed(messages.data):
+            print(message.role + ": " + message.content[0].text.value)
