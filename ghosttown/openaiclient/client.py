@@ -22,3 +22,14 @@ class OpenAIClient:
             return assistant_response
         except Exception as e:
             raise RuntimeError(f"Une erreur s'est produite lors de l'appel à l'API : {e}")
+
+    def send_prompt_audio(self, customer: Customer, audio_file_path: str, temperature: float = 0.7) -> str:
+        try:
+            transcription = self._client.audio.transcriptions.create(
+                model="whisper-1",
+                file=open(audio_file_path, "rb")
+            )
+            transcribed_text = transcription["text"]
+            return self.send_prompt(customer=customer, prompt=transcribed_text, temperature=temperature)
+        except Exception as e:
+            raise RuntimeError(f"Une erreur s'est produite lors de la transcription ou de l'appel à l'API : {e}")
