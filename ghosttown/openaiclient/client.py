@@ -1,7 +1,5 @@
 from openai import OpenAI
 
-from customer.customer import Customer
-
 
 class OpenAIClient:
     def __init__(self, api_key: str, model: str = "gpt-4o-mini") -> None:
@@ -9,42 +7,37 @@ class OpenAIClient:
         self.model = model
         self._client = OpenAI(api_key=api_key)
 
-    def send_prompt(self, customer: Customer, prompt: str, temperature: float = 0.7) -> str:
-        customer.add_message("user", prompt)
-        try:
-            response = self._client.chat.completions.create(
-                model=self.model,
-                messages=customer.get_history(),
-                temperature=temperature
-            )
-            assistant_response = response.choices[0].message.content
-            customer.add_message("assistant", assistant_response)
-            return assistant_response
-        except Exception as e:
-            raise RuntimeError(f"Une erreur s'est produite lors de l'appel à l'API : {e}")
-
-    def with_thread(self, thread_id: str, prompt: str):
+    def create_with_thread(self, thread_id: str, prompt: str):
         self.thread = self._client.beta.threads.messages.create(
             thread_id=thread_id,
             role="user",
             content=prompt
         )
 
+    def retrieve_thread_already_existing(self, thread_id: str):
+        ...
+
     def run(self, thread_id: str, assistant_id: str):
         self._client.beta.threads.runs.create(thread_id=thread_id,
                                               assistant_id=assistant_id)
 
-    # def send_prompt_audio(self, customer: Customer, audio_file_path: str, temperature: float = 0.7) -> str:
-    #     try:
-    #         transcription = self._client.audio.transcriptions.create(
-    #             model="whisper-1",
-    #             file=open(audio_file_path, "rb")
-    #         )
-    #         transcribed_text = transcription["text"]
-    #         return self.send_prompt(customer=customer, prompt=transcribed_text, temperature=temperature)
-    #     except Exception as e:
-    #         raise RuntimeError(f"Une erreur s'est produite lors de la transcription ou de l'appel à l'API : {e}")
     def get_answers(self, thread_id: str):
         messages = self._client.beta.threads.messages.list(thread_id=thread_id)
         for message in reversed(messages.data):
             print(message.role + ": " + message.content[0].text.value)
+
+    def send_message(self, thread_id: str, prompt: str) -> None:
+        try:
+            # Préparation du message en fonction de la présence de l'assistant
+            message_data = {
+                "thread_id": thread_id,
+                "role": "user",
+                "content": prompt
+            }
+
+            # Envoi du message via l'API
+            self._client.beta.threads.messages.create(**message_data)
+            self.run(thread_id=thread_id,
+                     assistant_id="asst_BIOHIqf1VqZGuiQzapiRufg7")
+        except Exception as e:
+            print(e)
