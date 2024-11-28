@@ -1,9 +1,23 @@
+from fastapi import APIRouter
+
 from assistant.assistant import OpenAIAssistant
 from main import load_api_key_from_file
 from openaiclient.client import OpenAIClient
 from thread.thread import OpenAIThread
 
 
+send_prompt_router = APIRouter(
+    prefix="/ghost",
+    tags=["send"]
+)
+
+
+def http_collect_bu_entities_for_all_surveys(bu: str, entity: Entity) -> fastapi.Response:
+    jr = collect(bu=bu.upper(), entity=entity)
+    return create_appropriate_http_response(jr)
+
+
+@send_prompt_router.post("/bu/{bu}/{entity}")
 def send_prompt(prompt: str):
     client.send_message(thread_id="thread_es8J9GI8tyzagdy4RkMXqBej",
                         prompt=prompt)
