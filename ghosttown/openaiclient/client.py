@@ -1,3 +1,5 @@
+from typing import List
+
 from openai import OpenAI
 
 
@@ -14,21 +16,20 @@ class OpenAIClient:
             content=prompt
         )
 
-    def retrieve_thread_already_existing(self, thread_id: str):
-        ...
-
     def run(self, thread_id: str, assistant_id: str):
         self._client.beta.threads.runs.create(thread_id=thread_id,
                                               assistant_id=assistant_id)
 
-    def get_answers(self, thread_id: str):
+    def get_answers(self, thread_id: str) -> List[str]:
         messages = self._client.beta.threads.messages.list(thread_id=thread_id)
+        res = []
         for message in reversed(messages.data):
             print(message.role + ": " + message.content[0].text.value)
+            res.append(message.role + ": " + message.content[0].text.value)
+        return res
 
     def send_message(self, thread_id: str, prompt: str) -> None:
         try:
-            # Préparation du message en fonction de la présence de l'assistant
             message_data = {
                 "thread_id": thread_id,
                 "role": "user",
