@@ -30,4 +30,13 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    # Taux d'amélioration quotidien
+    daily_growth_rate = 0.01
+
+    # Nombre de jours
+    days = 365
+
+    # Calcul des intérêts composés
+    final_value = (1 + daily_growth_rate) ** days
+    print(final_value)
