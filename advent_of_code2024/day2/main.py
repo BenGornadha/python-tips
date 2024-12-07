@@ -67,19 +67,19 @@ class Report:
         self._direction = Direction.UP
         self._is_safe = True
 
-    def add_level(self, level: Level):
+    def add_level(self, level: Level) -> None:
         self._levels.append(level)
 
-    def _find_direction(self, levels: Levels):
+    def _find_direction(self, levels: Levels) -> None:
         if levels[0] < levels[1]:
             self._direction = Direction.UP
             return
         self._direction = Direction.DOWN
 
-    def is_safe(self):
+    def is_safe(self) -> bool:
         return self._is_safe_strictly(levels=self._levels) or self.is_safe_with_removing()
 
-    def _is_safe_strictly(self, levels : Levels):
+    def _is_safe_strictly(self, levels : Levels) -> bool:
         self._find_direction(levels=levels)
         if self._is_safe is False:
             return False
