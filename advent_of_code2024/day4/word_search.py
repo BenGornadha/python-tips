@@ -40,8 +40,8 @@ class Neighbours:
         self.a_letter = a_letter
         self._result = {}
 
-    def register_a_neighbour(self, letter: Letter, position: Position) -> None:
-        self._result[position] = letter
+    def register_a_neighbour(self, letter: Letter, position: Position, direction: Direction) -> None:
+        self._result[position, direction] = letter
 
     def __repr__(self) -> str:
         return f"{self._result}"
@@ -63,7 +63,8 @@ class SearchZone:
             if neighbour_letter:
                 neighbours.register_a_neighbour(letter=neighbour_letter,
                                                 position=Position(row_index=position.row_index + direction.relative_x,
-                                                                  column_index=position.column_index + direction.relative_y))
+                                                                  column_index=position.column_index + direction.relative_y),
+                                                direction=direction)
         return neighbours
 
 
