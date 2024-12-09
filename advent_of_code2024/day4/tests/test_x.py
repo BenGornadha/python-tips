@@ -14,11 +14,11 @@ class MyTestCase(unittest.TestCase):
             word_search.register_row(a_row_of_letter=one_row)
         return word_search
 
-    def test_something(self):
-        input = ["XMAS", "XMMS"]
+    def test_easiest_case(self):
+        input = ["XMAS"]
         word_search = self.read_input(input=input)
         search_zone = SearchZone(word_search=word_search)
 
-        sut = search_zone.find_neighbours(Position(0, 0))
+        sut = search_zone.find_neighbours(position=Position(0, 0))
 
-        self.assertEqual("X", sut)  # add assertion here
+        self.assertEqual({Position(row_index=0, column_index=1): 'M'}, sut)

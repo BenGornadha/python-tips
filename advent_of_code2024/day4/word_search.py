@@ -1,8 +1,8 @@
 from __future__ import annotations
 import dataclasses
-from typing import List
+from typing import List, Any
 
-from advent_of_code2024.day4.directions import Direction, Directions
+from advent_of_code2024.day4.directions import Direction, Directions, West
 from advent_of_code2024.day4.letters import Letter, NoLetter
 from advent_of_code2024.day4.positon import Position
 
@@ -19,9 +19,8 @@ from advent_of_code2024.day4.positon import Position
 
 class OneRowOfLetters:
 
-    def __init__(self, size_row=1):
+    def __init__(self, ):
         self._letters = []
-        self._size_row = size_row
 
     def append_letter(self, letter=Letter):
         self._letters.append(letter)
@@ -32,40 +31,45 @@ class OneRowOfLetters:
         return self._letters[column_index]
 
     def _is_out_of_bounds(self, column_index: int) -> bool:
-        return self._size_row < column_index and column_index >= 0
+        return column_index >= len(self._letters) or column_index < 0
 
 
 class Neighbours:
 
-    def __init__(self, a_letter):
+    def __init__(self, a_letter: Letter) -> None:
         self.a_letter = a_letter
-        self._result = {0: {}}
+        self._result = {}
 
-    def register_a_neighbour(self, distance_from_origin, letter, position):
-        self._result[distance_from_origin][letter] = position
+    def register_a_neighbour(self, letter: Letter, position: Position) -> None:
+        self._result[position] = letter
+
+    def __repr__(self) -> str:
+        return f"{self._result}"
+
+    def __eq__(self, other: Any) -> bool:
+        return self._result == other
 
 
 class SearchZone:
 
-    def __init__(self, word_search: WordSearch):
+    def __init__(self, word_search: WordSearch) -> None:
         self.word_search = word_search
 
-    def find_neighbours(self, position: Position):
-        all_neighbours_letter = []
+    def find_neighbours(self, position: Position) -> Neighbours:
         letter = self.word_search.find_letter_at(position=position)
+        neighbours = Neighbours(a_letter=letter)
         for direction in Directions():
-            all_neighbours_letter.append((letter,
-                                          self.word_search.find_neighbour_for(position=position,
-                                                                              direction=direction),
-                                          direction))
-        return all_neighbours_letter
-        # if letter.next not in [neighbour[1] for neighbour in all_neighbours_letter]:
-        #     return 0
+            neighbour_letter = self.word_search.find_neighbour_for(position=position, direction=direction)
+            if neighbour_letter:
+                neighbours.register_a_neighbour(letter=neighbour_letter,
+                                                position=Position(row_index=position.row_index + direction.relative_x,
+                                                                  column_index=position.column_index + direction.relative_y))
+        return neighbours
 
 
 class WordSearch:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._rows: List[OneRowOfLetters] = []
 
     def register_row(self, a_row_of_letter: OneRowOfLetters) -> None:
@@ -77,8 +81,11 @@ class WordSearch:
         return self._rows[position.row_index].find_letter_at(column_index=position.column_index)
 
     def find_neighbour_for(self, position: Position, direction: Direction) -> Letter | NoLetter:
-        return self._rows[position.neighbour_at(direction=direction).row_index].find_letter_at(
+        row_index = position.neighbour_at(direction=direction).row_index
+        if self._is_out_of_bounds(row_index):
+            return NoLetter()
+        return self._rows[row_index].find_letter_at(
             column_index=position.neighbour_at(direction=direction).column_index)
 
     def _is_out_of_bounds(self, row_index: int) -> bool:
-        return row_index < 0 or row_index > len(self._rows)
+        return row_index < 0 or row_index >= len(self._rows)
