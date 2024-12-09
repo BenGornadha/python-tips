@@ -92,7 +92,7 @@ class WordSearch:
             return 0
 
     def _find_occurences_from(self, a_string: str):
-        return len(re.findall(WordSearch.WORD_SEARCHING, a_string))
+        return len(re.findall(WordSearch.WORD_SEARCHING, a_string)) + len(re.findall(WordSearch.WORD_SEARCHING[::-1], a_string))
 
 
 class MyTestCase(unittest.TestCase):
@@ -167,3 +167,22 @@ class MyTestCase(unittest.TestCase):
         sut = word_search.count_xmas()
 
         self.assertEqual(1, sut)
+
+    def test_max(self):
+        input = ["MMMSXXMASM",
+                 "MSAMXMSMSA",
+                 "AMXSXMAAMM",
+                 "MSAMASMSMX",
+                 "XMASAMXAMM",
+                 "XXAMMXXAMA",
+                 "SMSMSASXSS",
+                 "SAXAMASAAA",
+                 "MAMMMXMMMM",
+                 "MXMXAXMASX"
+                 ]
+
+        word_search = WordSearch(input=input)
+
+        sut = word_search.count_xmas()
+
+        self.assertEqual(18, sut)
