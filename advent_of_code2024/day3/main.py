@@ -15,11 +15,11 @@ class MulFinder:
         matches = re.findall(pattern, a_string)
         return matches
 
-    def find_all2(self, a_string: str):
-        pattern = r"mul\(\d{1,3},\d{1,3}\)"
-        matches = list(re.finditer(pattern, a_string))
+    def find_all_part_2(self, a_string: str):
+        pattern = r"do\(\)|don't\(\)|mul\(\d{1,3},\d{1,3}\)"
+        matches = re.findall(pattern, a_string)
 
-        return [match.group() for match in matches]
+        return matches
 
 
 class MulCalculator:
@@ -35,14 +35,22 @@ class MulCalculator:
 
     def compute(self):
         sum = 0
+        current_is_to_do = True
         for a_mul in self._muls:
-            sum += self._get_first_number(a_mul) * self._get_second_number(a_mul)
+            if a_mul == "don't()":
+                current_is_to_do = False
+                continue
+            if a_mul == "do()":
+                current_is_to_do = True
+                continue
+            if current_is_to_do:
+                sum += self._get_first_number(a_mul) * self._get_second_number(a_mul)
         return sum
 
 
 if __name__ == '__main__':
     res = read_input(filename="input.txt")
-    all_mul = MulFinder().find_all(a_string=res)
-    all_mul2 = MulFinder().find_all2(a_string=res)
+    all_mul = MulFinder().find_all_part_2(a_string=res)
+    # all_mul2 = MulFinder().find_all2(a_string=res)
     muc = MulCalculator(muls=all_mul)
     print(muc.compute())
