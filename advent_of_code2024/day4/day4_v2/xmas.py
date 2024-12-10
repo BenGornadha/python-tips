@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import re
 from abc import ABC, abstractmethod
+from typing import List
 
-from advent_of_code2024.day4.day4_v2.word_search import WordSearch2
 
 
 class XMASFinder(ABC):
@@ -12,8 +12,8 @@ class XMASFinder(ABC):
     def count_xmas(self):
         raise NotImplemented
 
-    def register_a_word_search(self, word_search: WordSearch2) -> None:
-        self._word_search = word_search.grid
+    def register_a_word_search_grid(self, word_search_grid: List[str]) -> None:
+        self._word_search = word_search_grid
         self._size_of_a_row = len(self._word_search[0])
         self._nb_rows = len(self._word_search)
 

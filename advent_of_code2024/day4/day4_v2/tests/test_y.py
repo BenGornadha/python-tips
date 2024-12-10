@@ -10,7 +10,7 @@ class MyTestCase(unittest.TestCase):
 
         word_search = WordSearch2(input=input)
         horizontal_search = HorizontalXMAS()
-        horizontal_search.register_a_word_search(word_search=word_search)
+        horizontal_search.register_a_word_search_grid(word_search_grid=word_search.grid)
 
         sut = horizontal_search.count_xmas()
 
@@ -21,7 +21,7 @@ class MyTestCase(unittest.TestCase):
 
         word_search = WordSearch2(input=input)
         horizontal_search = HorizontalXMAS()
-        horizontal_search.register_a_word_search(word_search=word_search)
+        horizontal_search.register_a_word_search_grid(word_search_grid=word_search.grid)
         sut = horizontal_search.count_xmas()
 
         self.assertEqual(0, sut)
@@ -31,7 +31,7 @@ class MyTestCase(unittest.TestCase):
 
         word_search = WordSearch2(input=input)
         horizontal_search = HorizontalXMAS()
-        horizontal_search.register_a_word_search(word_search=word_search)
+        horizontal_search.register_a_word_search_grid(word_search_grid=word_search.grid)
         sut = horizontal_search.count_xmas()
 
         self.assertEqual(2, sut)
@@ -41,7 +41,7 @@ class MyTestCase(unittest.TestCase):
 
         word_search = WordSearch2(input=input)
         horizontal_search = VerticalXMAS()
-        horizontal_search.register_a_word_search(word_search=word_search)
+        horizontal_search.register_a_word_search_grid(word_search_grid=word_search.grid)
         sut = horizontal_search.count_xmas()
 
         self.assertEqual(1, sut)
@@ -54,7 +54,7 @@ class MyTestCase(unittest.TestCase):
 
         word_search = WordSearch2(input=input)
         horizontal_search = DiagonalXMAS()
-        horizontal_search.register_a_word_search(word_search=word_search)
+        horizontal_search.register_a_word_search_grid(word_search_grid=word_search.grid)
         sut = horizontal_search.count_xmas()
 
 
@@ -68,7 +68,7 @@ class MyTestCase(unittest.TestCase):
 
         word_search = WordSearch2(input=input)
         horizontal_search = DiagonalXMAS()
-        horizontal_search.register_a_word_search(word_search=word_search)
+        horizontal_search.register_a_word_search_grid(word_search_grid=word_search.grid)
         sut = horizontal_search.count_xmas()
 
         self.assertEqual(1, sut)
@@ -79,9 +79,10 @@ class MyTestCase(unittest.TestCase):
                  "AAMA",
                  "SSSX"]
 
-        word_search = WordSearch(input=input)
-
-        sut = word_search.count_xmas()
+        word_search = WordSearch2(input=input)
+        horizontal_search = DiagonalXMAS()
+        horizontal_search.register_a_word_search_grid(word_search_grid=word_search.grid)
+        sut = horizontal_search.count_xmas()
 
         self.assertEqual(1, sut)
 
@@ -98,7 +99,10 @@ class MyTestCase(unittest.TestCase):
                  "MXMXAXMASX"
                  ]
 
-        word_search = WordSearch(input=input)
+        word_search = WordSearch2(input=input)
+        word_search.register_a_xmas_finder(a_finder=VerticalXMAS())
+        word_search.register_a_xmas_finder(a_finder=HorizontalXMAS())
+        word_search.register_a_xmas_finder(a_finder=DiagonalXMAS())
 
         sut = word_search.count_xmas()
 
