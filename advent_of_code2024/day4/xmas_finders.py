@@ -122,7 +122,7 @@ class DiagonalXMAS(XMASFinder):
         except IndexError as _:
             return 0
 
-    def _out_of_bounds(self, index: int):
+    def _out_of_bounds(self, index: int) -> bool:
         return index - 3 < 0
 
 
