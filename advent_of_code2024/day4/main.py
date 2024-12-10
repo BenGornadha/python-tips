@@ -1,7 +1,7 @@
 from typing import List
 
 from advent_of_code2024.day4.word_search import WordSearch
-from advent_of_code2024.day4.xmas import HorizontalXMAS, VerticalXMAS, DiagonalXMAS, CrossXMAS
+from advent_of_code2024.day4.xmas_finders import HorizontalXMAS, VerticalXMAS, DiagonalXMAS, CrossXMAS
 
 
 def read_input(filename: str) -> List[str]:

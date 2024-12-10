@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import List
 
-from advent_of_code2024.day4.xmas import XMASFinder
+from advent_of_code2024.day4.xmas_finders import XMASFinder
 
 
 class WordSearch:
@@ -10,11 +10,11 @@ class WordSearch:
         self._xmas_finders: List[XMASFinder] = []
 
     @property
-    def grid(self) -> List[str]:
+    def puzzle(self) -> List[str]:
         return self._rows.copy()
 
     def register_a_xmas_finder(self, a_finder: XMASFinder):
-        a_finder.register_a_word_search_grid(word_search_grid=self.grid)
+        a_finder.register_a_word_search_puzzle(word_search_puzzle=self.puzzle)
         self._xmas_finders.append(a_finder)
 
     def count_xmas(self) -> int:

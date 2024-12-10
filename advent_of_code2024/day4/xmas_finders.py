@@ -11,8 +11,8 @@ class XMASFinder(ABC):
     def count_xmas(self) -> int:
         raise NotImplemented
 
-    def register_a_word_search_grid(self, word_search_grid: List[str]) -> None:
-        self._word_search = word_search_grid
+    def register_a_word_search_puzzle(self, word_search_puzzle: List[str]) -> None:
+        self._word_search = word_search_puzzle
         self._size_of_a_row = len(self._word_search[0])
         self._nb_rows = len(self._word_search)
 
