@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import dataclasses
 from enum import auto, Enum
+from typing import List
 
 
 def read_input(filename: str):
@@ -31,10 +32,9 @@ class Level:
         return f"{self.value}"
 
 
-# TODO: collection de Level
 class Levels:
     def __init__(self):
-        self._levels = []
+        self._levels: List[Level] = []
 
     def append(self, a_level: Level):
         self._levels.append(a_level)
@@ -80,18 +80,27 @@ class Report:
         self._find_direction()
         if self._is_safe is False:
             return False
-        for i, level in enumerate(self._levels):
-            next_index = i + 1
-            if next_index == len(self._levels):
+        for current_index, level in enumerate(self._levels):
+            next_index = current_index + 1
+            if self._no_next_value(next_index=next_index):
                 break
             if self._direction == Direction.UP:
-                if 1 <= self._levels[next_index] - level <= 3:
+                if self._increasing_distance_is_acceptable(level=level, next_index=next_index):
                     continue
                 return False
-            if 1 <= level - self._levels[next_index] <= 3:
+            if self._decreasing_distance_is_acceptable(level, next_index):
                 continue
             return False
         return True
+
+    def _decreasing_distance_is_acceptable(self, level: Level, next_index: int) -> bool:
+        return 1 <= level - self._levels[next_index] <= 3
+
+    def _increasing_distance_is_acceptable(self, level: Level, next_index: int) -> bool:
+        return 1 <= self._levels[next_index] - level <= 3
+
+    def _no_next_value(self, next_index: int) -> bool:
+        return next_index == len(self._levels)
 
     def __repr__(self):
         return repr(self._levels)
@@ -99,15 +108,12 @@ class Report:
 
 if __name__ == '__main__':
     reports = read_input(filename="input.txt")
-    print(reports)
 
     count_safe_report = 0
     for report in reports:
         a_report = Report()
         for a_level in report:
             a_report.add_level(level=Level(value=a_level))
-        if a_report.is_safe():
-            print("Found this safe: ", a_report)
         count_safe_report += a_report.is_safe()
         # break
     print(count_safe_report)

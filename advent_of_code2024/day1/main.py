@@ -1,7 +1,7 @@
 from typing import List, Tuple
 
 
-def read_input(filename: str) -> Tuple[List[str]]:
+def read_input(filename: str) -> Tuple[List[str], List[str]]:
     first_col = []
     second_col = []
     input_file = open(filename, "r")
@@ -20,7 +20,6 @@ if __name__ == '__main__':
     nb_val = len(first_col)
 
     for i, first_element in enumerate(first_col):
-        # res += abs(int(first_element) - int(second_col[i]))
         current_value = int(first_element)
         nb_time_found = 0
         for second_element in second_col:
