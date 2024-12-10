@@ -10,7 +10,7 @@ def read_input(filename: str):
 
 class MulFinder:
 
-    def find_all(self, a_string: str):
+    def find_all_part_1(self, a_string: str):
         pattern = r"mul\(\d{1,3},\d{1,3}\)"
         matches = re.findall(pattern, a_string)
         return matches
