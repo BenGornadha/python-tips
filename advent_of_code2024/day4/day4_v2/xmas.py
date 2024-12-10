@@ -5,11 +5,10 @@ from abc import ABC, abstractmethod
 from typing import List
 
 
-
 class XMASFinder(ABC):
 
     @abstractmethod
-    def count_xmas(self):
+    def count_xmas(self) -> int:
         raise NotImplemented
 
     def register_a_word_search_grid(self, word_search_grid: List[str]) -> None:
@@ -125,3 +124,60 @@ class DiagonalXMAS(XMASFinder):
 
     def _out_of_bounds(self, index: int):
         return index - 3 < 0
+
+
+class CrossXMAS(XMASFinder):
+    def __init__(self, word_to_search="XMAS"):
+        self._word_search = []
+        self._word_to_search = word_to_search
+        self._size_of_a_row = 0
+        self._nb_rows = 0
+        self._valid_x_shape_values = {"MSMS", "SSMM", "MMSS", "SMSM"}
+
+    def count_xmas(self):
+        count = 0
+        for index_row, row in enumerate(self._word_search):
+            for index_column, letter in enumerate(row):
+                if self._middle_letter_is_not_A(letter):
+                    continue
+                if self._is_out_of_bounds(index_column, index_row):
+                    continue
+                x_shape_letters = self._get_x_shape_letters_for_position(index_row=index_row, index_column=index_column)
+                count += self._two_mas_in_x_shape(x_shape_letters)
+        return count
+
+    def _middle_letter_is_not_A(self, letter: str) -> bool:
+        return letter != "A"
+
+    def _two_mas_in_x_shape(self, x_shape_letters: str) -> bool:
+        return x_shape_letters in self._valid_x_shape_values
+
+    def _get_x_shape_letters_for_position(self, index_row: int, index_column: int) -> str:
+        north_west = self._get_north_west(index_row=index_row, index_column=index_column)
+        north_east = self._get_north_east(index_row=index_row, index_column=index_column)
+        south_west = self._get_south_west(index_row=index_row, index_column=index_column)
+        south_east = self._get_south_east(index_row=index_row, index_column=index_column)
+        letters = north_west + north_east + south_west + south_east
+        return letters
+
+    def _is_out_of_bounds(self, index_column: int, index_row: int):
+        return (self._cant_go_upper_or_more_to_the_left(index_column, index_row)
+                or self._cant_go_lower_or_more_to_the_right(index_column, index_row))
+
+    def _cant_go_lower_or_more_to_the_right(self, index_column: int, index_row: int) -> bool:
+        return index_row + 1 >= self._nb_rows or index_column + 1 >= self._size_of_a_row
+
+    def _cant_go_upper_or_more_to_the_left(self, index_column: int, index_row: int) -> bool:
+        return index_row - 1 < 0 or index_column - 1 < 0
+
+    def _get_north_west(self, index_row, index_column) -> str:
+        return self._word_search[index_row - 1][index_column - 1]
+
+    def _get_north_east(self, index_row, index_column) -> str:
+        return self._word_search[index_row - 1][index_column + 1]
+
+    def _get_south_west(self, index_row, index_column) -> str:
+        return self._word_search[index_row + 1][index_column - 1]
+
+    def _get_south_east(self, index_row, index_column) -> str:
+        return self._word_search[index_row + 1][index_column + 1]

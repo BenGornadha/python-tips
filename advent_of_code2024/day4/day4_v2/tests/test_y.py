@@ -1,7 +1,7 @@
 import unittest
 
 from advent_of_code2024.day4.day4_v2.word_search import WordSearch, WordSearch2
-from advent_of_code2024.day4.day4_v2.xmas import HorizontalXMAS, VerticalXMAS, DiagonalXMAS
+from advent_of_code2024.day4.day4_v2.xmas import HorizontalXMAS, VerticalXMAS, DiagonalXMAS, CrossXMAS
 
 
 class MyTestCase(unittest.TestCase):
@@ -56,7 +56,6 @@ class MyTestCase(unittest.TestCase):
         horizontal_search = DiagonalXMAS()
         horizontal_search.register_a_word_search_grid(word_search_grid=word_search.grid)
         sut = horizontal_search.count_xmas()
-
 
         self.assertEqual(1, sut)
 
@@ -113,9 +112,10 @@ class MyTestCase(unittest.TestCase):
                  "XAX",
                  "MXS"]
 
-        word_search = WordSearch(input=input)
+        word_search = WordSearch2(input=input)
+        word_search.register_a_xmas_finder(a_finder=CrossXMAS())
 
-        sut = word_search.count_x_mas()
+        sut = word_search.count_xmas()
 
         self.assertEqual(1, sut)
 
@@ -131,8 +131,8 @@ class MyTestCase(unittest.TestCase):
                  "M.M.M.M.M.",
                  ".........."]
 
-        word_search = WordSearch(input=input)
-
-        sut = word_search.count_x_mas()
+        word_search = WordSearch2(input=input)
+        word_search.register_a_xmas_finder(a_finder=CrossXMAS())
+        sut = word_search.count_xmas()
 
         self.assertEqual(9, sut)
