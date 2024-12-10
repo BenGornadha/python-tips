@@ -38,8 +38,6 @@ class VerticalXMAS(XMASFinder):
     def __init__(self, word_to_search="XMAS"):
         self._word_search = []
         self._word_to_search = word_to_search
-        self._size_of_a_row = 0
-        self._nb_rows = 0
 
     def count_xmas(self) -> int:
         count = 0
@@ -63,7 +61,6 @@ class DiagonalXMAS(XMASFinder):
     def __init__(self, word_to_search="XMAS"):
         self._word_search = []
         self._word_to_search = word_to_search
-        self._nb_rows = 0
 
     def count_xmas(self) -> int:
         count = 0
