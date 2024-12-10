@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import dataclasses
 from enum import auto, Enum
+from typing import List
 
 
 def read_input(filename: str):
@@ -31,12 +32,12 @@ class Level:
 
 class Levels:
     def __init__(self):
-        self._levels = []
+        self._levels: List[Level] = []
 
     def append(self, a_level: Level):
         self._levels.append(a_level)
 
-    def copy(self) ->  Levels:
+    def copy(self) -> Levels:
         return copy.deepcopy(self)
 
     def __getitem__(self, index):
@@ -79,22 +80,31 @@ class Report:
     def is_safe(self) -> bool:
         return self._is_safe_strictly(levels=self._levels) or self.is_safe_with_removing()
 
-    def _is_safe_strictly(self, levels : Levels) -> bool:
+    def _is_safe_strictly(self, levels: Levels) -> bool:
         self._find_direction(levels=levels)
         if self._is_safe is False:
             return False
-        for i, level in enumerate(levels):
-            next_index = i + 1
-            if next_index == len(levels):
+        for current_index, level in enumerate(levels):
+            next_index = current_index + 1
+            if self._no_next_value(levels, next_index):
                 break
             if self._direction == Direction.UP:
-                if 1 <= levels[next_index] - level <= 3:
+                if self._increasing_distance_is_acceptable(level, levels, next_index):
                     continue
                 return False
-            if 1 <= level - levels[next_index] <= 3:
+            if self._decreasing_distance_is_acceptable(level, levels, next_index):
                 continue
             return False
         return True
+
+    def _decreasing_distance_is_acceptable(self, level, levels, next_index):
+        return 1 <= level - levels[next_index] <= 3
+
+    def _increasing_distance_is_acceptable(self, level, levels, next_index):
+        return 1 <= levels[next_index] - level <= 3
+
+    def _no_next_value(self, levels, next_index):
+        return next_index == len(levels)
 
     def is_safe_with_removing(self):
         nb_levels = len(self._levels)
@@ -109,7 +119,6 @@ class Report:
         return repr(self._levels)
 
 
-
 if __name__ == '__main__':
     reports = read_input(filename="input.txt")
     print(reports)
@@ -120,7 +129,5 @@ if __name__ == '__main__':
         for a_level in report:
             a_report.add_level(level=Level(value=a_level))
         if a_report.is_safe():
-            print("Found this safe: ", a_report)
             count_safe_report += 1
-        # break
     print(count_safe_report)
