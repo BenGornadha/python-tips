@@ -1,7 +1,15 @@
+from __future__ import annotations
 import re
 from typing import List
 
-from advent_of_code2024.day4.letters import X, M, A
+
+class WordSearch2:
+    def __init__(self, input: List[str]) -> None:
+        self._rows = input
+
+    @property
+    def grid(self) -> List[str]:
+        return self._rows.copy()
 
 
 class WordSearch:
