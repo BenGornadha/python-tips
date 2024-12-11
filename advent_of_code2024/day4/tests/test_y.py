@@ -40,9 +40,9 @@ class MyTestCase(unittest.TestCase):
         input = ["X", "M", "A", "S"]
 
         word_search = WordSearch(input=input)
-        horizontal_search = VerticalXMAS()
-        horizontal_search.register_a_word_search_puzzle(word_search_puzzle=word_search.puzzle)
-        sut = horizontal_search.count_xmas()
+        vertical_search = VerticalXMAS()
+        vertical_search.register_a_word_search_puzzle(word_search_puzzle=word_search.puzzle)
+        sut = vertical_search.count_xmas()
 
         self.assertEqual(1, sut)
 
@@ -53,9 +53,9 @@ class MyTestCase(unittest.TestCase):
                  "SSSS"]
 
         word_search = WordSearch(input=input)
-        horizontal_search = DiagonalXMAS()
-        horizontal_search.register_a_word_search_puzzle(word_search_puzzle=word_search.puzzle)
-        sut = horizontal_search.count_xmas()
+        diagonal_search = DiagonalXMAS()
+        diagonal_search.register_a_word_search_puzzle(word_search_puzzle=word_search.puzzle)
+        sut = diagonal_search.count_xmas()
 
         self.assertEqual(1, sut)
 
@@ -66,9 +66,9 @@ class MyTestCase(unittest.TestCase):
                  "SSSS"]
 
         word_search = WordSearch(input=input)
-        horizontal_search = DiagonalXMAS()
-        horizontal_search.register_a_word_search_puzzle(word_search_puzzle=word_search.puzzle)
-        sut = horizontal_search.count_xmas()
+        diagonal_search = DiagonalXMAS()
+        diagonal_search.register_a_word_search_puzzle(word_search_puzzle=word_search.puzzle)
+        sut = diagonal_search.count_xmas()
 
         self.assertEqual(1, sut)
 
@@ -79,9 +79,9 @@ class MyTestCase(unittest.TestCase):
                  "SSSX"]
 
         word_search = WordSearch(input=input)
-        horizontal_search = DiagonalXMAS()
-        horizontal_search.register_a_word_search_puzzle(word_search_puzzle=word_search.puzzle)
-        sut = horizontal_search.count_xmas()
+        diagonal_search = DiagonalXMAS()
+        diagonal_search.register_a_word_search_puzzle(word_search_puzzle=word_search.puzzle)
+        sut = diagonal_search.count_xmas()
 
         self.assertEqual(1, sut)
 
