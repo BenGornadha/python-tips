@@ -12,20 +12,20 @@ class XMASFinder(ABC):
         raise NotImplemented
 
     def register_a_word_search_puzzle(self, word_search_puzzle: List[str]) -> None:
-        self._word_search = word_search_puzzle
-        self._size_of_a_row = len(self._word_search[0])
-        self._nb_rows = len(self._word_search)
+        self._puzzle = word_search_puzzle
+        self._size_of_a_row = len(self._puzzle[0])
+        self._nb_rows = len(self._puzzle)
 
 
 class HorizontalXMAS(XMASFinder):
 
     def __init__(self, word_to_search="XMAS"):
-        self._word_search = []
+        self._puzzle = []
         self._word_to_search = word_to_search
 
     def count_xmas(self) -> int:
         count = 0
-        for row in self._word_search:
+        for row in self._puzzle:
             count += self._find_occurrences_from(a_string=row)
         return count
 
@@ -36,7 +36,7 @@ class HorizontalXMAS(XMASFinder):
 class VerticalXMAS(XMASFinder):
 
     def __init__(self, word_to_search="XMAS"):
-        self._word_search = []
+        self._puzzle = []
         self._word_to_search = word_to_search
 
     def count_xmas(self) -> int:
@@ -49,7 +49,7 @@ class VerticalXMAS(XMASFinder):
     def _get_all_letters_at(self, col_index: int) -> str:
         all_letters = ""
         for row_index in range(self._nb_rows):
-            all_letters += self._word_search[row_index][col_index]
+            all_letters += self._puzzle[row_index][col_index]
         return all_letters
 
     def _find_occurrences_from(self, a_string: str):
@@ -59,12 +59,12 @@ class VerticalXMAS(XMASFinder):
 class DiagonalXMAS(XMASFinder):
 
     def __init__(self, word_to_search="XMAS"):
-        self._word_search = []
+        self._puzzle = []
         self._word_to_search = word_to_search
 
     def count_xmas(self) -> int:
         count = 0
-        for index_row, row in enumerate(self._word_search):
+        for index_row, row in enumerate(self._puzzle):
             for index_column, letter in enumerate(row):
                 count += self._right_diagonal(index_column, index_row, letter)
                 count += self._left_diagonal(index_column, index_row, letter)
@@ -76,9 +76,9 @@ class DiagonalXMAS(XMASFinder):
     def _right_diagonal(self, index_column: int, index_row: int, letter: str):
         diagonal = letter
         try:
-            diagonal += self._word_search[index_row + 1][index_column + 1]
-            diagonal += self._word_search[index_row + 2][index_column + 2]
-            diagonal += self._word_search[index_row + 3][index_column + 3]
+            diagonal += self._puzzle[index_row + 1][index_column + 1]
+            diagonal += self._puzzle[index_row + 2][index_column + 2]
+            diagonal += self._puzzle[index_row + 3][index_column + 3]
             return 1 if diagonal == "XMAS" else 0
         except IndexError as _:
             return 0
@@ -88,9 +88,9 @@ class DiagonalXMAS(XMASFinder):
         if self._out_of_bounds(index=index_column):
             return 0
         try:
-            diagonal += self._word_search[index_row + 1][index_column - 1]
-            diagonal += self._word_search[index_row + 2][index_column - 2]
-            diagonal += self._word_search[index_row + 3][index_column - 3]
+            diagonal += self._puzzle[index_row + 1][index_column - 1]
+            diagonal += self._puzzle[index_row + 2][index_column - 2]
+            diagonal += self._puzzle[index_row + 3][index_column - 3]
             return 1 if diagonal == "XMAS" else 0
         except IndexError as _:
             return 0
@@ -100,9 +100,9 @@ class DiagonalXMAS(XMASFinder):
         if self._out_of_bounds(index=index_row):
             return 0
         try:
-            diagonal += self._word_search[index_row - 1][index_column + 1]
-            diagonal += self._word_search[index_row - 2][index_column + 2]
-            diagonal += self._word_search[index_row - 3][index_column + 3]
+            diagonal += self._puzzle[index_row - 1][index_column + 1]
+            diagonal += self._puzzle[index_row - 2][index_column + 2]
+            diagonal += self._puzzle[index_row - 3][index_column + 3]
             return 1 if diagonal == "XMAS" else 0
         except IndexError as _:
             return 0
@@ -112,9 +112,9 @@ class DiagonalXMAS(XMASFinder):
         if self._out_of_bounds(index=index_row) or self._out_of_bounds(index=index_column):
             return 0
         try:
-            diagonal += self._word_search[index_row - 1][index_column - 1]
-            diagonal += self._word_search[index_row - 2][index_column - 2]
-            diagonal += self._word_search[index_row - 3][index_column - 3]
+            diagonal += self._puzzle[index_row - 1][index_column - 1]
+            diagonal += self._puzzle[index_row - 2][index_column - 2]
+            diagonal += self._puzzle[index_row - 3][index_column - 3]
             return 1 if diagonal == "XMAS" else 0
         except IndexError as _:
             return 0
@@ -125,7 +125,7 @@ class DiagonalXMAS(XMASFinder):
 
 class CrossXMAS(XMASFinder):
     def __init__(self, word_to_search="XMAS"):
-        self._word_search = []
+        self._puzzle = []
         self._word_to_search = word_to_search
         self._size_of_a_row = 0
         self._nb_rows = 0
@@ -133,7 +133,7 @@ class CrossXMAS(XMASFinder):
 
     def count_xmas(self):
         count = 0
-        for index_row, row in enumerate(self._word_search):
+        for index_row, row in enumerate(self._puzzle):
             for index_column, letter in enumerate(row):
                 if self._middle_letter_is_not_A(letter):
                     continue
@@ -168,13 +168,13 @@ class CrossXMAS(XMASFinder):
         return index_row - 1 < 0 or index_column - 1 < 0
 
     def _get_north_west(self, index_row, index_column) -> str:
-        return self._word_search[index_row - 1][index_column - 1]
+        return self._puzzle[index_row - 1][index_column - 1]
 
     def _get_north_east(self, index_row, index_column) -> str:
-        return self._word_search[index_row - 1][index_column + 1]
+        return self._puzzle[index_row - 1][index_column + 1]
 
     def _get_south_west(self, index_row, index_column) -> str:
-        return self._word_search[index_row + 1][index_column - 1]
+        return self._puzzle[index_row + 1][index_column - 1]
 
     def _get_south_east(self, index_row, index_column) -> str:
-        return self._word_search[index_row + 1][index_column + 1]
+        return self._puzzle[index_row + 1][index_column + 1]
